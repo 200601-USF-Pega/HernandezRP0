@@ -8,4 +8,16 @@ public class EmployeeMenu implements IMenu {
 		
 	}
 
+	@Override
+	public void bikeMenu() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void billMenu() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
