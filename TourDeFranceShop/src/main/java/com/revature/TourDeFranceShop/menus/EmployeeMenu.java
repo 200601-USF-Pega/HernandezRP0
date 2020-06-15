@@ -1,6 +1,12 @@
 package com.revature.TourDeFranceShop.menus;
 
+import com.revature.TourDeFranceShop.models.User;
+
 public class EmployeeMenu implements IMenu {
+
+	public EmployeeMenu(User user) {
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void mainMenu() {

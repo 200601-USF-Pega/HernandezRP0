@@ -4,14 +4,22 @@ public class User {
 	private String username;
 	private String name; 
 	private String role; 
+	private int uId;
 	
-	public User() {}
-	public User(String username, String name, String role) {
+	public User(int uId, String role) {
+		this.uId = uId;
+		this.role = role;
+	}
+	public User(int uId, String username, String name, String role) {
+		this.uId = uId;
 		this.username = username;
 		this.name = name;
 		this.role = role;
 	}
 	
+	public int getId() {
+		return uId;
+	}
 	public String getUsername() {
 		return username;
 	}
