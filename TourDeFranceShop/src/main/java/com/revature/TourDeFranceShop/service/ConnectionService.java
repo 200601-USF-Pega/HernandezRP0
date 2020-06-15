@@ -10,7 +10,7 @@ public class ConnectionService {
 	
 	public ConnectionService() {
 		try {
-			FileInputStream fis = new FileInputStream("dbconfig.prop");
+			FileInputStream fis = new FileInputStream("dbconfig.prop"); //file that holds db login credentials
 			Properties p = new Properties();
 			p.load(fis);
 			
