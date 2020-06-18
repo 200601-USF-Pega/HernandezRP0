@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
 
+//Class structure from Jacob Davis' github code
 public class ConnectionService {
 	private Connection connection;
 	

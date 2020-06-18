@@ -6,11 +6,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.revature.TourDeFranceShop.service.ConnectionService;
 
 public class EmployeeDB {
 	ConnectionService connection;
+	private static final Logger logger = LogManager.getLogger(EmployeeDB.class);
 	
 	public EmployeeDB(ConnectionService connection) {
 		this.connection = connection;
@@ -29,8 +32,7 @@ public class EmployeeDB {
 				repairList.add(results.getString("status"));
 			}
 		} catch (SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			logger.error("Exception: " + e.getMessage());
 		}
 		return repairList;
 	}
@@ -50,8 +52,7 @@ public class EmployeeDB {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			logger.error("Exception: " + e.getMessage());
 		}
 		return statements;
 	}
@@ -70,8 +71,7 @@ public class EmployeeDB {
 				products.add(results.getString("status"));
 			}
 		} catch (SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			logger.error("Exception: " + e.getMessage());
 		}
 		return products;
 	}
@@ -86,8 +86,7 @@ public class EmployeeDB {
 			s.setInt(4, bikeId);
 			s.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			logger.error("Exception: " + e.getMessage());
 		}
 	}
 	
@@ -101,8 +100,7 @@ public class EmployeeDB {
 			s.setString(4, "in stock");
 			s.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			logger.error("Exception: " + e.getMessage());
 		}
 	}
 	
@@ -113,8 +111,7 @@ public class EmployeeDB {
 					+ "WHERE repairid=" + repairId);
 			s.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			logger.error("Exception: " + e.getMessage());
 		}
 	}
 	
@@ -124,8 +121,7 @@ public class EmployeeDB {
 					+ "WHERE billid=" + billId);
 			s.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			logger.error("Exception: " + e.getMessage());
 		}
 	}
 
@@ -135,8 +131,7 @@ public class EmployeeDB {
 					+ "WHERE pid=" + productId);
 			s.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			logger.error("Exception: " + e.getMessage());
 		}
 	}
 
@@ -146,9 +141,14 @@ public class EmployeeDB {
 					+ "WHERE pid=" + productId);
 			s.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			logger.error("Exception: " + e.getMessage());
 		}
+	}
+	
+	//Logout
+	public void logout() {
+		logger.info("Employee logged out");
+		connection.finalize();
 	}
 
 }

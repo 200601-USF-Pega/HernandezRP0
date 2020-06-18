@@ -5,11 +5,12 @@ import com.revature.TourDeFranceShop.models.User;
 import java.util.List;
 
 import com.revature.TourDeFranceShop.dao.EmployeeDB;
+import com.revature.TourDeFranceShop.menus.MenuFactory;
 
 public class EmployeeService {
 	private EmployeeDB employeeDB = new EmployeeDB(new ConnectionService());
 	private User employee;
-	
+		
 	public EmployeeService(User employee) {
 		this.employee = employee;
 	}
@@ -17,20 +18,20 @@ public class EmployeeService {
 	//Methods that retrieve data from DB
 	public void viewBikeRepairs() {
 		List<String> repairs = employeeDB.getRepairList();
-		System.out.format("%12s%12s%12s","Repair ID","Bike ID", "Status");
+		System.out.format("%-12s%-12s%-12s","Repair ID","Bike ID", "Status");
 		System.out.println();
 		for(int x=0; x < repairs.size(); x += 3) {
 			int repairId = Integer.parseInt(repairs.get(x));
 			int bikeId = Integer.parseInt(repairs.get(x+1));
 			String status = repairs.get(x+2);
-			System.out.format("%12d%12d%12s", repairId, bikeId, status);
+			System.out.format("%-12d%-12d%-12s", repairId, bikeId, status);
 			System.out.println();
 		}
 	}
 	
 	public void viewBillStatements() {
 		List<String> statements = employeeDB.getBill();
-		System.out.format("%12s%12s%12s%12s%12s","Bill ID","User ID", "Bike ID", "Balance","Status");
+		System.out.format("%-12s%-12s%-12s%-12s%-12s","Bill ID","User ID", "Bike ID", "Balance","Status");
 		System.out.println();
 		for(int x=0; x < statements.size(); x += 5) {
 			int billId = Integer.parseInt(statements.get(x));
@@ -38,14 +39,14 @@ public class EmployeeService {
 			int bikeId = Integer.parseInt(statements.get(x+2));
 			double balance = Double.parseDouble(statements.get(x+3));
 			String status = statements.get(x+4);
-			System.out.format("%12d%12d%12d%12.02f%12s",billId, userId,bikeId, balance,status);
+			System.out.format("%-12d%-12d%-12d%-12.02f%-12s",billId, userId,bikeId, balance,status);
 			System.out.println();
 		}
 	}
 	
-	public void viewProducts() { //TODO: Close all db connections
+	public void viewProducts() { 
 		List<String> products = employeeDB.getProductList();
-		System.out.format("%12s%12s%12s%12s%12s","Product ID","Name", "Price","Description","Status");
+		System.out.format("%-12s%-18s%-12s%-15s%-12s","Product ID","Name", "Price","Status","Description");
 		System.out.println();
 		for(int x=0; x < products.size(); x += 5) {
 			int productId = Integer.parseInt(products.get(x));
@@ -53,7 +54,7 @@ public class EmployeeService {
 			double price = Double.parseDouble(products.get(x+2));
 			String desc = products.get(x+3);
 			String status = products.get(x+4);
-			System.out.format("%12d%12s%12.02f%12s%12s", productId, name, price, desc, status);
+			System.out.format("%-12d%-18s%-12.02f%-15s%-12s", productId, name, price, status, desc);
 			System.out.println();
 		}
 	}
@@ -81,5 +82,11 @@ public class EmployeeService {
 
 	public void changeProductPrice(int productId, double price) {
 		employeeDB.updateProductPrice(productId, price);
+	}
+	
+	//Logout
+	public void logout() {
+		System.out.println("Logged out!");
+		employeeDB.logout();
 	}
 }

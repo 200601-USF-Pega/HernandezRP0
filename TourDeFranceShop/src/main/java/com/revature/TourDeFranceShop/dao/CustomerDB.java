@@ -8,12 +8,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.revature.TourDeFranceShop.models.Bike;
 import com.revature.TourDeFranceShop.service.ConnectionService;
 
 public class CustomerDB {
 	ConnectionService connection;
+	private static final Logger logger = LogManager.getLogger(CustomerDB.class);
 	
 	public CustomerDB(ConnectionService connection) {
 		this.connection = connection;
@@ -34,8 +37,7 @@ public class CustomerDB {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			logger.error("Exception: " + e.getMessage());
 		}
 		return status;
 	}
@@ -54,8 +56,7 @@ public class CustomerDB {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			logger.error("Exception: " + e.getMessage());
 		}
 		return statements;
 	}
@@ -71,8 +72,7 @@ public class CustomerDB {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			logger.error("Exception: " + e.getMessage());
 		}
 		return productName;
 	}
@@ -91,8 +91,7 @@ public class CustomerDB {
 				products.add(results.getString("status"));
 			}
 		} catch (SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			logger.error("Exception: " + e.getMessage());
 		}
 		return products;
 	}
@@ -105,8 +104,7 @@ public class CustomerDB {
 			s.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
-			return "Error: " + e.getMessage();
+			logger.error("Exception: " + e.getMessage());
 		}
 		return "Successfully registered your bike (" + bike.getModel()+")!";
 		
@@ -120,9 +118,14 @@ public class CustomerDB {
 					+ "WHERE billid="+billId+";");
 			s.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
+			logger.error("Exception: " + e.getMessage());
 		}
+	}
+	
+	//Logout
+	public void logout() {
+		logger.info("Customer logged out");
+		connection.finalize();
 	}
 	
 }
