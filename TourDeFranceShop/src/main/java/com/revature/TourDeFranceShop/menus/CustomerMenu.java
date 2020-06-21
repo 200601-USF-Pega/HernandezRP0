@@ -2,18 +2,19 @@ package com.revature.TourDeFranceShop.menus;
 
 import java.util.Scanner;
 
-import com.revature.TourDeFranceShop.dao.CustomerDB;
 import com.revature.TourDeFranceShop.models.Bike;
 import com.revature.TourDeFranceShop.models.User;
-import com.revature.TourDeFranceShop.service.ConnectionService;
 import com.revature.TourDeFranceShop.service.CustomerService;
+import com.revature.TourDeFranceShop.service.LoginService;
+import com.revature.TourDeFranceShop.service.ValidationService;
 
 public class CustomerMenu implements IMenu{
-	private ConnectionService connect = new ConnectionService();
+	Scanner input = new Scanner(System.in);
 	private CustomerService customer;
+	private ValidationService validate = new ValidationService();
 
-	public CustomerMenu(User customer) {
-		this.customer = new CustomerService(customer);
+	public CustomerMenu(User user) {
+		this.customer = new CustomerService(user);
 	}
 	
 	@Override
@@ -26,8 +27,7 @@ public class CustomerMenu implements IMenu{
 						 + "[4] Purchase bike products and accessories\n"
 						 + "[5] Logout");
 		
-		Scanner in = new Scanner(System.in);
-		int option = Integer.parseInt(in.nextLine()); //TODO: input verification (option)
+		int option = validate.getValidOption(5);
 		switch(option) {
 			case 1:
 				bikeRepairMenu();
@@ -41,10 +41,9 @@ public class CustomerMenu implements IMenu{
 			case 4:
 				productsMenu();
 				break;
-			default:
-				mainMenu();
+			case 5:
+				customer.logout();
 		}
-		in.close();
 		
 	}
 
@@ -52,54 +51,59 @@ public class CustomerMenu implements IMenu{
 	public void bikeRepairMenu() {
 		System.out.println("Your bike(s) repair status\n");
 		customer.getRepairStatus();
+		System.out.println("\n[0] Go back");
+		if(Integer.parseInt(input.nextLine()) == 0) {
+			mainMenu();
+		}
 	}
 	
 	public void bikeRegisterMenu() {
-		System.out.println("Please input your bike model (bike brand + model number) ex: trek73eg");
-		Scanner in = new Scanner(System.in);
-		Bike bikeModel = new Bike(in.nextLine()); //TODO: input verification (bike)
+		String prompt = "Please input your bike model (bike brand + model number) ex: trek73eg";
+		Bike bikeModel = new Bike(validate.getValidString(prompt));
 		customer.registerBike(bikeModel);
-		in.close();
+		System.out.println("\n[0] Go back");
+		if(validate.getValidOption(0) == 0) {
+			mainMenu();
+		}
 	}
 	
 	public void billMenu() {
 		System.out.println("Your bill statements");
 		customer.getBillStatements();
-		System.out.println("\n[1] Pay bill\n[2] Return to main menu");
-		Scanner in = new Scanner(System.in);
-		int option = Integer.parseInt(in.nextLine()); //TODO: input verification (option)
+		System.out.println("\n[0] Return to main menu\n[1] Pay bill");
+		int option = validate.getValidOption(1);
 		switch(option){
-			case 1:
-				//in.close();
-				paymentMenu();
-				break;
-			case 2:
-				//in.close();
+			case 0:
 				mainMenu();
+				break;
+			case 1:
+				paymentMenu();
 				break;
 		}
 		
 	}
 	
 	public void paymentMenu() {
-		Scanner in = new Scanner(System.in);
-		System.out.println("Enter the Bill ID: ");
-		int billId = Integer.parseInt(in.nextLine()); //TODO: input verification (billId)
-		System.out.println("Enter your 5 digit credit card number ex: 15924");	
-		int creditCard = Integer.parseInt(in.nextLine()); //TODO: input verification (credit card)
-		//TODO: add logic for pass or fail credit card verification
-		customer.billPayment(billId); //TODO: add feedback
+		int billId = validate.getValidBillId();	
+		int creditCard = validate.getValidCreditCard();
+		customer.billPayment(billId); 
+		System.out.println("Paid!");
+		System.out.println("\n[0] Go back");
+		if(validate.getValidOption(0) == 0) {
+			mainMenu();
+		}
 	}
 	
 	public void productsMenu() {
 		customer.viewProducts();
-		Scanner in = new Scanner(System.in);
-		System.out.println("\nSelect the product ID you wish to purchase: ");
-		int productId = Integer.parseInt(in.nextLine()); //TODO: input verification (billId)
-		System.out.println("Enter your 5 digit credit card number ex: 15924");	
-		int creditCard = Integer.parseInt(in.nextLine()); //TODO: input verification (credit card)
-		//TODO: add logic for pass or fail credit card verification
-		customer.buyProduct(productId); //TODO: add feedback
+		System.out.println("\nSelect the product you wish to purchase");
+		int productId = validate.getValidProductId();
+		int creditCard = validate.getValidCreditCard();
+		customer.buyProduct(productId); 
+		System.out.println("\n[0] Go back");
+		if(validate.getValidOption(0) == 0) {
+			mainMenu();
+		}
 	}
 
 }
