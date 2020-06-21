@@ -1,13 +1,13 @@
 package com.revature.TourDeFranceShop;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+import com.revature.TourDeFranceShop.menus.IMenu;
+import com.revature.TourDeFranceShop.menus.MenuFactory;
+
+
+public class App{
+    public static void main(String[] args){
+    	MenuFactory menuFactory = new MenuFactory();
+    	IMenu menu = menuFactory.getMenu();
+    	menu.mainMenu();
     }
 }

@@ -6,10 +6,7 @@ public class User {
 	private String role; 
 	private int uId;
 	
-	public User(int uId, String role) {
-		this.uId = uId;
-		this.role = role;
-	}
+	public User() {	}
 	public User(int uId, String username, String name, String role) {
 		this.uId = uId;
 		this.username = username;
